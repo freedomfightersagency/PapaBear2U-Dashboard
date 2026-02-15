@@ -4,7 +4,7 @@
 */
 
 const LINKS = {
-  tiktok: "https://www.tiktok.com/",
+  tiktok: "https://www.tiktok.com/@frantzyfrancois2",
   instagram: "https://www.instagram.com/",
   youtube: "https://www.youtube.com/",
   facebook: "https://www.facebook.com/"
