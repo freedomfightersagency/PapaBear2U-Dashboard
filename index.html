@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Freedom Fighters Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <div>
+        <div class="title">Freedom Fighters — Command Dashboard</div>
+        <div class="subtitle" id="clock">Loading time…</div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="btn" id="btnExport">Export Notes</button>
+      <button class="btn btnGold" id="btnClear">Clear Local Data</button>
+    </div>
+  </header>
+
+  <main class="grid">
+    <!-- MARKET -->
+    <section class="card span2">
+      <div class="cardHead">
+        <h2>📊 Financial Market</h2>
+        <p>Snapshot + watchlist</p>
+      </div>
+
+      <!-- TradingView widget (no API key). You can edit symbols in the script below. -->
+      <div class="cardBody">
+        <div class="tvWrap">
+          <div class="tradingview-widget-container">
+            <div id="tv-widget"></div>
+            <script src="https://s3.tradingview.com/tv.js"></script>
+            <script>
+              new TradingView.widget({
+                "width": "100%",
+                "height": 460,
+                "symbol": "NASDAQ:QQQ",
+                "interval": "D",
+                "timezone": "America/New_York",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "toolbar_bg": "#0b0b0f",
+                "enable_publishing": false,
+                "hide_top_toolbar": false,
+                "allow_symbol_change": true,
+                "container_id": "tv-widget"
+              });
+            </script>
+          </div>
+        </div>
+
+        <div class="chips">
+          <a class="chip" href="https://finance.yahoo.com/" target="_blank" rel="noreferrer">Yahoo Finance</a>
+          <a class="chip" href="https://www.cnn.com/markets/fear-and-greed" target="_blank" rel="noreferrer">Fear &amp; Greed</a>
+          <a class="chip" href="https://www.investing.com/rates-bonds/" target="_blank" rel="noreferrer">Rates</a>
+          <a class="chip" href="https://trends.google.com/trends/?geo=US" target="_blank" rel="noreferrer">Google Trends</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSURANCE TRENDS -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>🛡️ Insurance Trends</h2>
+        <p>Curated sources (fast daily scan)</p>
+      </div>
+      <div class="cardBody">
+        <ul class="links">
+          <li><a target="_blank" rel="noreferrer" href="https://www.iii.org/">Insurance Information Institute (III)</a></li>
+          <li><a target="_blank" rel="noreferrer" href="https://www.naic.org/">NAIC</a></li>
+          <li><a target="_blank" rel="noreferrer" href="https://www.limra.com/">LIMRA</a></li>
+          <li><a target="_blank" rel="noreferrer" href="https://trends.google.com/trends/explore?geo=US&q=term%20life%20insurance,life%20insurance">Google Trends: Life / Term</a></li>
+          <li><a target="_blank" rel="noreferrer" href="https://fred.stlouisfed.org/">FRED: rates/inflation (content fuel)</a></li>
+        </ul>
+
+        <div class="miniNote">
+          <strong>Tip:</strong> Use this panel to pull 1 trend → turn into 1 post → drive to DM/booking.
+        </div>
+
+        <div class="rssBox">
+          <div class="rssTitle">Optional RSS (advanced)</div>
+          <p class="muted">If you want live headlines, we can add an RSS proxy later (GitHub Pages has CORS limits).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIAL -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>📱 Social Command</h2>
+        <p>Quick open + posting checklist</p>
+      </div>
+      <div class="cardBody">
+        <div class="twoCol">
+          <div>
+            <div class="label">Quick Links</div>
+            <div class="chips">
+              <a class="chip" href="#" id="tiktokLink" target="_blank" rel="noreferrer">TikTok</a>
+              <a class="chip" href="#" id="igLink" target="_blank" rel="noreferrer">Instagram</a>
+              <a class="chip" href="#" id="ytLink" target="_blank" rel="noreferrer">YouTube</a>
+              <a class="chip" href="#" id="fbLink" target="_blank" rel="noreferrer">Facebook</a>
+            </div>
+
+            <div class="label">Daily Posting (tap to check)</div>
+            <div class="checklist" id="postingChecklist"></div>
+          </div>
+
+          <div>
+            <div class="label">Today’s Scoreboard</div>
+            <div class="score">
+              <div class="scoreRow">
+                <span>Posts</span>
+                <input type="number" min="0" id="kpiPosts" />
+              </div>
+              <div class="scoreRow">
+                <span>Leads</span>
+                <input type="number" min="0" id="kpiLeads" />
+              </div>
+              <div class="scoreRow">
+                <span>Revenue ($)</span>
+                <input type="number" min="0" id="kpiRevenue" />
+              </div>
+              <button class="btn btnGold w100" id="btnSaveKPI">Save KPIs</button>
+              <div class="muted small" id="kpiSavedMsg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDLY -->
+    <section class="card span2">
+      <div class="cardHead">
+        <h2>📅 Appointments (Calendly)</h2>
+        <p>Embedded booking calendar</p>
+      </div>
+      <div class="cardBody">
+        <div class="embedWrap">
+          <!-- Replace this with your Calendly link -->
+          <iframe
+            id="calendlyFrame"
+            title="Calendly"
+            src="https://calendly.com/myfiancialfreedom"
+            frameborder="0"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="muted small">
+          Change the Calendly link in <code>index.html</code> (search for <code>calendly.com</code>).
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIMERICA EVENTS -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>💼 Primerica Events</h2>
+        <p>Reminders + agenda</p>
+      </div>
+      <div class="cardBody">
+        <form id="eventForm" class="form">
+          <input required id="eventTitle" placeholder="Event title (e.g., Weekly Team Call)" />
+          <input required id="eventWhen" type="datetime-local" />
+          <input id="eventWhere" placeholder="Location / Link (optional)" />
+          <button class="btn btnGold" type="submit">Add Event</button>
+        </form>
+
+        <div class="events" id="eventsList"></div>
+
+        <div class="miniNote">
+          Events + notes are saved in <strong>your browser</strong> (localStorage). Works great for daily ops.
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>🧠 Notes</h2>
+        <p>Brain dump + scripts + ideas (auto-save)</p>
+      </div>
+      <div class="cardBody">
+        <textarea id="notes" placeholder="Drop ideas, scripts, client notes, content hooks…"></textarea>
+        <div class="row">
+          <button class="btn" id="btnCopyNotes">Copy</button>
+          <div class="muted small" id="notesStatus">Autosave enabled.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="muted small">Freedom Fighters Dashboard • GitHub Pages ready</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
