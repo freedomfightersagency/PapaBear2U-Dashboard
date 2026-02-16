@@ -3,8 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Freedom Fighters Dashboard</title>
+  <title>Freedom Fighters — Money OS</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Link preview (optional but recommended) -->
+  <meta name="description" content="Freedom Fighters Money OS — targets, leads, bookings, recruiting, revenue, and daily execution." />
+  <meta property="og:title" content="Freedom Fighters — Money OS" />
+  <meta property="og:description" content="Targets • Lead pipeline • Recruiting • Revenue • Calendly • Scripts" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://freedomfightersagency.github.io/PapaBear2U-Dashboard/" />
+  <!-- Upload og-image.png to repo root (1200x630) if you want a preview image -->
+  <meta property="og:image" content="https://freedomfightersagency.github.io/PapaBear2U-Dashboard/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 </head>
 
 <body>
@@ -12,26 +22,290 @@
     <div class="brand">
       <div class="logo-dot"></div>
       <div>
-        <div class="title">Freedom Fighters — Command Dashboard</div>
-        <div class="subtitle" id="clock">Loading time…</div>
+        <div class="title">Freedom Fighters — Money OS</div>
+        <div class="subtitle" id="clock">Loading…</div>
       </div>
     </div>
 
     <div class="top-actions">
-      <button class="btn" id="btnExport">Export Notes</button>
-      <button class="btn btnGold" id="btnClear">Clear Local Data</button>
+      <button class="btn" id="btnQuickAddLead">+ Lead</button>
+      <button class="btn" id="btnQuickAddRecruit">+ Recruit</button>
+      <button class="btn btnGold" id="btnBookNow">Book Call</button>
+      <button class="btn" id="btnExport">Export</button>
+      <button class="btn" id="btnClear">Clear</button>
     </div>
   </header>
 
+  <!-- QUICK ACTION BAR -->
+  <div class="actionBar">
+    <button class="pill" id="btnOpenTikTok">Open TikTok</button>
+    <button class="pill" id="btnOpenCalendly">Open Calendly</button>
+    <button class="pill" id="btnCopyDM">Copy DM Script</button>
+    <button class="pill" id="btnGeneratePlan">Generate Today’s Plan</button>
+    <span class="muted small" id="planMsg"></span>
+  </div>
+
   <main class="grid">
-    <!-- MARKET -->
+    <!-- TODAY TARGETS -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>🎯 Today’s Targets</h2>
+        <p>Set targets. Execute. Scoreboard wins.</p>
+      </div>
+      <div class="cardBody">
+        <div class="score">
+          <div class="scoreRow">
+            <span>Revenue Target ($)</span>
+            <input type="number" min="0" id="tRevenue" />
+          </div>
+          <div class="scoreRow">
+            <span>Calls Target</span>
+            <input type="number" min="0" id="tCalls" />
+          </div>
+          <div class="scoreRow">
+            <span>Recruits Target</span>
+            <input type="number" min="0" id="tRecruits" />
+          </div>
+          <div class="scoreRow">
+            <span>Posts Target</span>
+            <input type="number" min="0" id="tPosts" />
+          </div>
+          <button class="btn btnGold w100" id="btnSaveTargets">Save Targets</button>
+          <div class="muted small" id="targetsSavedMsg"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TODAY MONEY ACTIONS -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>⚡ Today’s Money Actions</h2>
+        <p>These create income. Check them off.</p>
+      </div>
+      <div class="cardBody">
+        <div class="checklist" id="moneyChecklist"></div>
+        <div class="miniNote">
+          <strong>Rule:</strong> If it doesn’t produce leads, bookings, recruits, or sales — it’s optional.
+        </div>
+      </div>
+    </section>
+
+    <!-- REVENUE TODAY -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>💰 Revenue Today</h2>
+        <p>Track what pays you.</p>
+      </div>
+      <div class="cardBody">
+        <div class="score">
+          <div class="scoreRow">
+            <span>Policies Sold</span>
+            <input type="number" min="0" id="rPolicies" />
+          </div>
+          <div class="scoreRow">
+            <span>Digital Sales ($)</span>
+            <input type="number" min="0" id="rDigital" />
+          </div>
+          <div class="scoreRow">
+            <span>Pipeline Value ($)</span>
+            <input type="number" min="0" id="rPipeline" />
+          </div>
+          <button class="btn btnGold w100" id="btnSaveRevenue">Save Revenue</button>
+          <div class="muted small" id="revenueSavedMsg"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEAD PIPELINE -->
+    <section class="card span2" id="leadSection">
+      <div class="cardHead">
+        <h2>🧲 Lead Pipeline (DM → Book → Close)</h2>
+        <p>Every lead gets a next step. Money lives in follow-up.</p>
+      </div>
+      <div class="cardBody">
+        <form id="leadForm" class="form twoColForm">
+          <input required id="leadName" placeholder="Lead name" />
+          <select id="leadSource">
+            <option value="TikTok">TikTok</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Referral">Referral</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <select id="leadStage">
+            <option value="New">New</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Booked">Booked</option>
+            <option value="Presented">Presented</option>
+            <option value="Closed">Closed</option>
+            <option value="Nurture">Nurture</option>
+          </select>
+
+          <input id="leadNext" placeholder="Next step (e.g., send quote, confirm call)" />
+          <input id="leadFollowUp" type="date" />
+          <input id="leadValue" type="number" min="0" placeholder="Est. value ($) optional" />
+          <button class="btn btnGold" type="submit">Add Lead</button>
+        </form>
+
+        <div class="toolbar">
+          <input id="leadSearch" placeholder="Search leads…" />
+          <select id="leadFilterStage">
+            <option value="All">All stages</option>
+            <option value="New">New</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Booked">Booked</option>
+            <option value="Presented">Presented</option>
+            <option value="Closed">Closed</option>
+            <option value="Nurture">Nurture</option>
+          </select>
+        </div>
+
+        <div class="tableWrap">
+          <table class="table" id="leadTable">
+            <thead>
+              <tr>
+                <th>Lead</th>
+                <th>Source</th>
+                <th>Stage</th>
+                <th>Next step</th>
+                <th>Follow-up</th>
+                <th>$</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leadRows"></tbody>
+          </table>
+        </div>
+
+        <div class="miniNote">
+          <strong>Daily rule:</strong> Clear Follow-ups due today first → then create new leads.
+        </div>
+      </div>
+    </section>
+
+    <!-- RECRUIT PIPELINE -->
+    <section class="card" id="recruitSection">
+      <div class="cardHead">
+        <h2>🤝 Recruit Pipeline</h2>
+        <p>Prospect → Interview → Onboard.</p>
+      </div>
+      <div class="cardBody">
+        <form id="recruitForm" class="form">
+          <input required id="recruitName" placeholder="Recruit name" />
+          <select id="recruitStage">
+            <option value="Prospect">Prospect</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Interview">Interview</option>
+            <option value="Onboarding">Onboarding</option>
+            <option value="Licensed">Licensed</option>
+            <option value="Active">Active</option>
+          </select>
+          <input id="recruitNext" placeholder="Next step (e.g., schedule interview)" />
+          <input id="recruitFollowUp" type="date" />
+          <button class="btn btnGold" type="submit">Add Recruit</button>
+        </form>
+
+        <div class="tableWrap">
+          <table class="table" id="recruitTable">
+            <thead>
+              <tr>
+                <th>Recruit</th>
+                <th>Stage</th>
+                <th>Next step</th>
+                <th>Follow-up</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recruitRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIAL + SCRIPTS -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>📱 Social + Scripts</h2>
+        <p>Open, post, DM fast. Copy scripts.</p>
+      </div>
+      <div class="cardBody">
+        <div class="chips">
+          <a class="chip" href="#" id="tiktokLink" target="_blank" rel="noreferrer">TikTok</a>
+          <a class="chip" href="#" id="igLink" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="chip" href="#" id="ytLink" target="_blank" rel="noreferrer">YouTube</a>
+          <a class="chip" href="#" id="fbLink" target="_blank" rel="noreferrer">Facebook</a>
+        </div>
+
+        <div class="scriptBox">
+          <div class="scriptHead">
+            <div>
+              <div class="scriptTitle">DM Script (Booking Push)</div>
+              <div class="muted small">Use this when someone comments or DMs.</div>
+            </div>
+            <button class="btn btnGold" id="btnCopyDM2">Copy</button>
+          </div>
+          <textarea id="dmScript"></textarea>
+        </div>
+
+        <div class="scriptBox">
+          <div class="scriptHead">
+            <div>
+              <div class="scriptTitle">Call Opener</div>
+              <div class="muted small">Fast discovery → close.</div>
+            </div>
+            <button class="btn" id="btnCopyCall">Copy</button>
+          </div>
+          <textarea id="callScript"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDLY -->
+    <section class="card span2" id="book">
+      <div class="cardHead">
+        <h2>📅 Bookings (Calendly)</h2>
+        <p>Embed + direct open button (in case embed loads slow)</p>
+      </div>
+      <div class="cardBody">
+        <div class="row">
+          <button class="btn btnGold" id="btnOpenCalendly2">Open Calendly in New Tab</button>
+          <span class="muted small">Primary booking link: <code>calendly.com/myfiancialfreedom</code></span>
+        </div>
+
+        <div class="embedWrap">
+          <iframe
+            id="calendlyFrame"
+            title="Calendly"
+            src="https://calendly.com/myfiancialfreedom"
+            frameborder="0"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section class="card">
+      <div class="cardHead">
+        <h2>🧠 Notes</h2>
+        <p>Ideas, objections, scripts, offers (auto-save)</p>
+      </div>
+      <div class="cardBody">
+        <textarea id="notes" placeholder="Drop ideas, client notes, content hooks…"></textarea>
+        <div class="row">
+          <button class="btn" id="btnCopyNotes">Copy Notes</button>
+          <div class="muted small" id="notesStatus">Autosave enabled.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKET (optional, keep for intel) -->
     <section class="card span2">
       <div class="cardHead">
-        <h2>📊 Financial Market</h2>
-        <p>Snapshot + watchlist</p>
+        <h2>📊 Market Intel</h2>
+        <p>Quick awareness (don’t live here)</p>
       </div>
-
-      <!-- TradingView widget (no API key). You can edit symbols in the script below. -->
       <div class="cardBody">
         <div class="tvWrap">
           <div class="tradingview-widget-container">
@@ -40,7 +314,7 @@
             <script>
               new TradingView.widget({
                 "width": "100%",
-                "height": 460,
+                "height": 420,
                 "symbol": "NASDAQ:QQQ",
                 "interval": "D",
                 "timezone": "America/New_York",
@@ -60,145 +334,15 @@
         <div class="chips">
           <a class="chip" href="https://finance.yahoo.com/" target="_blank" rel="noreferrer">Yahoo Finance</a>
           <a class="chip" href="https://www.cnn.com/markets/fear-and-greed" target="_blank" rel="noreferrer">Fear &amp; Greed</a>
-          <a class="chip" href="https://www.investing.com/rates-bonds/" target="_blank" rel="noreferrer">Rates</a>
+          <a class="chip" href="https://fred.stlouisfed.org/" target="_blank" rel="noreferrer">FRED</a>
           <a class="chip" href="https://trends.google.com/trends/?geo=US" target="_blank" rel="noreferrer">Google Trends</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- INSURANCE TRENDS -->
-    <section class="card">
-      <div class="cardHead">
-        <h2>🛡️ Insurance Trends</h2>
-        <p>Curated sources (fast daily scan)</p>
-      </div>
-      <div class="cardBody">
-        <ul class="links">
-          <li><a target="_blank" rel="noreferrer" href="https://www.iii.org/">Insurance Information Institute (III)</a></li>
-          <li><a target="_blank" rel="noreferrer" href="https://www.naic.org/">NAIC</a></li>
-          <li><a target="_blank" rel="noreferrer" href="https://www.limra.com/">LIMRA</a></li>
-          <li><a target="_blank" rel="noreferrer" href="https://trends.google.com/trends/explore?geo=US&q=term%20life%20insurance,life%20insurance">Google Trends: Life / Term</a></li>
-          <li><a target="_blank" rel="noreferrer" href="https://fred.stlouisfed.org/">FRED: rates/inflation (content fuel)</a></li>
-        </ul>
-
-        <div class="miniNote">
-          <strong>Tip:</strong> Use this panel to pull 1 trend → turn into 1 post → drive to DM/booking.
-        </div>
-
-        <div class="rssBox">
-          <div class="rssTitle">Optional RSS (advanced)</div>
-          <p class="muted">If you want live headlines, we can add an RSS proxy later (GitHub Pages has CORS limits).</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SOCIAL -->
-    <section class="card">
-      <div class="cardHead">
-        <h2>📱 Social Command</h2>
-        <p>Quick open + posting checklist</p>
-      </div>
-      <div class="cardBody">
-        <div class="twoCol">
-          <div>
-            <div class="label">Quick Links</div>
-            <div class="chips">
-              <a class="chip" href="#" id="tiktokLink" target="_blank" rel="noreferrer">TikTok</a>
-              <a class="chip" href="#" id="igLink" target="_blank" rel="noreferrer">Instagram</a>
-              <a class="chip" href="#" id="ytLink" target="_blank" rel="noreferrer">YouTube</a>
-              <a class="chip" href="#" id="fbLink" target="_blank" rel="noreferrer">Facebook</a>
-            </div>
-
-            <div class="label">Daily Posting (tap to check)</div>
-            <div class="checklist" id="postingChecklist"></div>
-          </div>
-
-          <div>
-            <div class="label">Today’s Scoreboard</div>
-            <div class="score">
-              <div class="scoreRow">
-                <span>Posts</span>
-                <input type="number" min="0" id="kpiPosts" />
-              </div>
-              <div class="scoreRow">
-                <span>Leads</span>
-                <input type="number" min="0" id="kpiLeads" />
-              </div>
-              <div class="scoreRow">
-                <span>Revenue ($)</span>
-                <input type="number" min="0" id="kpiRevenue" />
-              </div>
-              <button class="btn btnGold w100" id="btnSaveKPI">Save KPIs</button>
-              <div class="muted small" id="kpiSavedMsg"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CALENDLY -->
-    <section class="card span2">
-      <div class="cardHead">
-        <h2>📅 Appointments (Calendly)</h2>
-        <p>Embedded booking calendar</p>
-      </div>
-      <div class="cardBody">
-        <div class="embedWrap">
-          <!-- Replace this with your Calendly link -->
-          <iframe
-            id="calendlyFrame"
-            title="Calendly"
-            src="https://calendly.com/myfiancialfreedom"
-            frameborder="0"
-            loading="lazy"
-          ></iframe>
-        </div>
-        <div class="muted small">
-          Change the Calendly link in <code>index.html</code> (search for <code>calendly.com</code>).
-        </div>
-      </div>
-    </section>
-
-    <!-- PRIMERICA EVENTS -->
-    <section class="card">
-      <div class="cardHead">
-        <h2>💼 Primerica Events</h2>
-        <p>Reminders + agenda</p>
-      </div>
-      <div class="cardBody">
-        <form id="eventForm" class="form">
-          <input required id="eventTitle" placeholder="Event title (e.g., Weekly Team Call)" />
-          <input required id="eventWhen" type="datetime-local" />
-          <input id="eventWhere" placeholder="Location / Link (optional)" />
-          <button class="btn btnGold" type="submit">Add Event</button>
-        </form>
-
-        <div class="events" id="eventsList"></div>
-
-        <div class="miniNote">
-          Events + notes are saved in <strong>your browser</strong> (localStorage). Works great for daily ops.
-        </div>
-      </div>
-    </section>
-
-    <!-- NOTES -->
-    <section class="card">
-      <div class="cardHead">
-        <h2>🧠 Notes</h2>
-        <p>Brain dump + scripts + ideas (auto-save)</p>
-      </div>
-      <div class="cardBody">
-        <textarea id="notes" placeholder="Drop ideas, scripts, client notes, content hooks…"></textarea>
-        <div class="row">
-          <button class="btn" id="btnCopyNotes">Copy</button>
-          <div class="muted small" id="notesStatus">Autosave enabled.</div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <span class="muted small">Freedom Fighters Dashboard • GitHub Pages ready</span>
+    <span class="muted small">Freedom Fighters Money OS • GitHub Pages ready</span>
   </footer>
 
   <script src="app.js"></script>
